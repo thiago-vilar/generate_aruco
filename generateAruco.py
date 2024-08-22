@@ -1,26 +1,29 @@
 import numpy as np
 import cv2
 
-ARUCO_DICT ={
-    "DICT_4x4_50": cv2.aruco.DICT_4x4_50
+# Inicialização do dicionário ArUco
+ARUCO_DICT = {
+    "DICT_4X4_50": cv2.aruco.DICT_4X4_50
 }
 
-aruco_type = "DICT_4x4_50"
-id = 1
+aruco_type = "DICT_4X4_50"
+id = 1  # ID do marcador que você quer gerar
 
+# Obtém o dicionário ArUco pré-definido
 arucoDict = cv2.aruco.getPredefinedDictionary(ARUCO_DICT[aruco_type])
 
-print("ArUCo type ' [] ' with ID '{}'".format(aruco_type, id))
-tag_size = 1000
-tag = np.zeros((tag_size, tag_size, 1), dtype="uint8")
-cv2.aruco.drawMarker(arucoDict, id, tag_size, tag, 1)
+print(f"ArUco type '{aruco_type}' with ID '{id}'")
+tag_size = 1000  # Define o tamanho do marcador
 
-#Save the tag g
-#generated
-tag_name = "arucoMarkers/" + aruco_type + "_" + str(id) + ".png"
+# Usa a função generateImageMarker para criar o marcador
+tag = cv2.aruco.generateImageMarker(arucoDict, id, tag_size)
+
+# Salva o marcador gerado
+tag_name = f"arucoMarkers/{aruco_type}_{id}.png"
 cv2.imwrite(tag_name, tag)
+
+# Mostra o marcador gerado
 cv2.imshow("ArUco Tag", tag)
-
 cv2.waitKey(0)
+cv2.destroyAllWindows()
 
-cv2.destroyAllWIndows()
